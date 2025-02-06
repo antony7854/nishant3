@@ -1,0 +1,39 @@
+const questions = [
+    { question: "Reducing waste is good for the environment.", answer: true },
+    { question: "Plastic is biodegradable.", answer: false },
+    { question: "Planting trees helps combat climate change.", answer: true },
+];
+
+document.getElementById('startQuiz').addEventListener('click', startQuiz);
+
+function startQuiz() {
+    document.getElementById('quizContainer').style.display = 'block';
+    showQuestion(0);
+}
+
+let currentQuestionIndex = 0;
+
+function showQuestion(index) {
+    if (index < questions.length) {
+        document.getElementById('question').innerText = questions[index].question;
+        currentQuestionIndex = index;
+    } else {
+        document.getElementById('quizContainer').innerHTML = "<p>Quiz completed! Thanks for participating!</p>";
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('answerBtn')) {
+        const userAnswer = event.target.getAttribute('data-answer') === 'true';
+        const correctAnswer = questions[currentQuestionIndex].answer;
+        
+        document.getElementById('feedback').innerText = userAnswer === correctAnswer 
+            ? "Correct!" 
+            : "Incorrect! The correct answer is " + (correctAnswer ? "True." : "False.");
+        
+        setTimeout(() => {
+            document.getElementById('feedback').innerText = '';
+            showQuestion(currentQuestionIndex + 1);
+        }, 2000);
+    }
+});
